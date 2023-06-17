@@ -32,7 +32,11 @@ namespace SegundoParcialHerr.Services
             }
            
         }
-        
+        public List<Autor> GetAll()
+        {
+            var query = from autor in _context.Autor select autor;
+            return query.ToList();
+        }
 
         public List<Autor> GetAll(string NombreBuscado)
         {

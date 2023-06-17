@@ -8,46 +8,48 @@ using Microsoft.EntityFrameworkCore;
 using SegundoParcialHerr.Data;
 using SegundoParcialHerr.Models;
 using SegundoParcialHerr.ViewModels;
+using SegundoParcialHerr.Services;
+
 
 namespace SegundoParcialHerr.Controllers
 {
  public class SucursalController : Controller
     {
-        private readonly AutorContext _context;
+        // private readonly AutorContext _context;
+        private ISucursalService _sucursalService;
+        private ILibroService _librolService;
 
-        public SucursalController(AutorContext context)
+        public SucursalController(ISucursalService sucursalService, ILibroService libroService)
         {
-            _context = context;
+            _sucursalService = sucursalService;
+            _librolService = libroService;
         }
 
         // GET: Sucursal
         public async Task<IActionResult> Index(string NombreBuscado)
         {
-            var query = from sucursal in _context.Autor select sucursal;
+            // var query = from sucursal in _context.Autor select sucursal;
 
-            if (!string.IsNullOrEmpty(NombreBuscado))
-            {
-                query = query.Where(x => x.Nombre.ToLower().Contains(NombreBuscado.ToLower()));
-            }
+            // if (!string.IsNullOrEmpty(NombreBuscado))
+            // {
+            //     query = query.Where(x => x.Nombre.ToLower().Contains(NombreBuscado.ToLower()));
+            // }
 
             var model = new SucursalViewModel();
-            model.Sucursales = await _context.Sucursal.ToListAsync();
+            model.Sucursales = _sucursalService.GetAll(NombreBuscado);
 
-              return _context.Sucursal != null ? 
-                          View(model) :
-                          Problem("Entity set 'AutorContext.Sucursal'  is null.");
+              return View(model);
         }
 
         // GET: Sucursal/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Sucursal == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var sucursal = await _context.Sucursal
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var sucursal = _sucursalService.GetById(id.Value);
             if (sucursal == null)
             {
                 return NotFound();
@@ -59,7 +61,7 @@ namespace SegundoParcialHerr.Controllers
         // GET: Sucursal/Create
         public IActionResult Create()
         {
-            ViewData["Libros"] = new SelectList(_context.Libro.ToList(), "Id","Titulo"); 
+            ViewData["Libros"] = new SelectList(_librolService.GetAll(), "Id","Titulo"); 
             return View();
         }
 
@@ -74,7 +76,7 @@ namespace SegundoParcialHerr.Controllers
 
             if (ModelState.IsValid)
             {   
-                var libros = _context.Libro.Where(x => sucursalView.LibroId.Contains(x.Id)).ToList(); //traigo todos los libros y los guardo en la variable
+                var libros = _librolService.GetAll(); //traigo todos los libros y los guardo en la variable
 
                 var sucursal = new Sucursal();
                 sucursal.Id = sucursalView.Id;
@@ -83,8 +85,7 @@ namespace SegundoParcialHerr.Controllers
                 sucursal.Localidad = sucursalView.Localidad;
                 sucursal.Libros = libros;
 
-                _context.Add(sucursal);
-                await _context.SaveChangesAsync();
+                _sucursalService.Create(sucursal);
                 return RedirectToAction(nameof(Index));
             }
             return View(sucursalView);
@@ -93,12 +94,12 @@ namespace SegundoParcialHerr.Controllers
         // GET: Sucursal/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Sucursal == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var sucursal = await _context.Sucursal.FindAsync(id);
+            var sucursal = _sucursalService.GetById(id.Value);
             if (sucursal == null)
             {
                 return NotFound();
@@ -128,8 +129,7 @@ namespace SegundoParcialHerr.Controllers
 
                 try
                 {
-                    _context.Update(sucursal);
-                    await _context.SaveChangesAsync();
+                    _sucursalService.Update(sucursal);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -150,13 +150,12 @@ namespace SegundoParcialHerr.Controllers
         // GET: Sucursal/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Sucursal == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var sucursal = await _context.Sucursal
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var sucursal = _sucursalService.GetById(id.Value);
             if (sucursal == null)
             {
                 return NotFound();
@@ -170,23 +169,17 @@ namespace SegundoParcialHerr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Sucursal == null)
-            {
-                return Problem("Entity set 'AutorContext.Sucursal'  is null.");
-            }
-            var sucursal = await _context.Sucursal.FindAsync(id);
-            if (sucursal != null)
-            {
-                _context.Sucursal.Remove(sucursal);
-            }
-            
-            await _context.SaveChangesAsync();
+            // if (_context.Sucursal == null)
+            // {
+            //     return Problem("Entity set 'AutorContext.Sucursal'  is null.");
+            // }
+            _sucursalService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool SucursalExists(int id)
         {
-          return (_context.Sucursal?.Any(e => e.Id == id)).GetValueOrDefault();
+          return _sucursalService.GetById(id) != null;
         }
     }
 }

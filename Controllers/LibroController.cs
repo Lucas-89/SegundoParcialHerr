@@ -8,43 +8,49 @@ using Microsoft.EntityFrameworkCore;
 using SegundoParcialHerr.Data;
 using SegundoParcialHerr.Models;
 using SegundoParcialHerr.ViewModels;
+using SegundoParcialHerr.Services;
+
 
 namespace SegundoParcialHerr.Controllers
 {
     public class LibroController : Controller
     {
-        private readonly AutorContext _context;
+        // private readonly AutorContext _context;
+        private readonly ILibroService _libroService;
+        private readonly IAutorService _autorService;
 
-        public LibroController(AutorContext context)
+        public LibroController(ILibroService libroService, IAutorService autorService)
         {
-            _context = context;
+            _libroService = libroService;
+            _autorService = autorService;
         }
 
         // GET: Libro
-        public async Task<IActionResult> Index(string NombreBuscado)
+        public IActionResult Index(string NombreBuscado)
         {
-            var query = from libro in _context.Libro select libro;
-            if (!string.IsNullOrEmpty(NombreBuscado))
-            {
-                query = query.Where(x =>x.Titulo.ToLower().Contains(NombreBuscado));
-            }
+            // var query = from libro in _context.Libro select libro;
+            // if (!string.IsNullOrEmpty(NombreBuscado))
+            // {
+            //     query = query.Where(x =>x.Titulo.ToLower().Contains(NombreBuscado));
+            // }
             var model = new LibroViewModel();
-            model.Libros = await query.ToListAsync();
-            var autorContext = _context.Libro.Include(l => l.Autor);
+            model.Libros = _libroService.GetAll(NombreBuscado);
+            // var autorContext = _context.Libro.Include(l => l.Autor);
             return View(model);
         }
 
         // GET: Libro/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
-            if (id == null || _context.Libro == null)
+            if (id == null )
             {
                 return NotFound();
             }
 
-            var libro = await _context.Libro
-                .Include(l => l.Autor)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // var libro = await _context.Libro
+            //     .Include(l => l.Autor)
+            //     .FirstOrDefaultAsync(m => m.Id == id);
+            var libro = _libroService.GetById(id.Value);
             if (libro == null)
             {
                 return NotFound();
@@ -56,7 +62,7 @@ namespace SegundoParcialHerr.Controllers
         // GET: Libro/Create
         public IActionResult Create()
         {
-            ViewData["AutorId"] = new SelectList(_context.Autor, "Id", "Nombre");
+            ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre");
             return View();
         }
 
@@ -65,9 +71,9 @@ namespace SegundoParcialHerr.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titulo,Genero,Precio,Stock,AutorId,autores")] LibroCreateViewModel libro)
+        public IActionResult Create([Bind("Id,Titulo,Genero,Precio,Stock,AutorId,autores")] LibroCreateViewModel libro)
         {
-            var autores = from autor in _context.Autor select autor;
+            var autores = _autorService.GetAll(); //VER ESTA PARTE
 
             var libroNuevo = new Libro();
             libroNuevo.Id = libro.Id;
@@ -75,42 +81,43 @@ namespace SegundoParcialHerr.Controllers
             libroNuevo.Genero = libro.Genero;
             libroNuevo.Precio = libro.Precio;
             libroNuevo.Stock = libro.Stock;
-            libroNuevo.AutorId = libro.AutorId;
+            libroNuevo.AutorId = libro.AutorId; // ACA TAMBIEN
             
             // ModelState.Remove("A");
             if (ModelState.IsValid)
             {
-                _context.Add(libroNuevo);
-                await _context.SaveChangesAsync();
+                // _context.Add(libroNuevo);
+                // await _context.SaveChangesAsync();
+                _libroService.Create(libroNuevo);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AutorId"] = new SelectList(_context.Autor, "Id", "Nombre", libro.AutorId);
+            ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre", libro.AutorId);
             return View(libro);
         }
 
         // GET: Libro/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null || _context.Libro == null)
+            if (id == null )
             {
                 return NotFound();
             }
 
-            var libro = await _context.Libro.FindAsync(id);
+            var libro = _libroService.GetById(id.Value);
             if (libro == null)
             {
                 return NotFound();
             }
-            ViewData["AutorId"] = new SelectList(_context.Autor, "Id", "Nombre", libro.AutorId);
+            ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre", libro.AutorId);
             return View(libro);
-        }
+        } 
 
         // POST: Libro/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Genero,Precio,Stock,AutorId")] LibroCreateViewModel libro)
+        public IActionResult Edit(int id, [Bind("Id,Titulo,Genero,Precio,Stock,AutorId")] LibroCreateViewModel libro)
         {
             if (id != libro.Id)
             {
@@ -128,8 +135,7 @@ namespace SegundoParcialHerr.Controllers
                 libroNuevo.AutorId = libro.AutorId;
                 try
                 {
-                    _context.Update(libroNuevo);
-                    await _context.SaveChangesAsync();
+                    _libroService.Update(libroNuevo);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -144,21 +150,19 @@ namespace SegundoParcialHerr.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AutorId"] = new SelectList(_context.Autor, "Id", "Nombre", libro.AutorId);
+            ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre", libro.AutorId);
             return View(libro);
         }
 
         // GET: Libro/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
-            if (id == null || _context.Libro == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var libro = await _context.Libro
-                .Include(l => l.Autor)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var libro = _libroService.GetById(id.Value);
             if (libro == null)
             {
                 return NotFound();
@@ -170,25 +174,20 @@ namespace SegundoParcialHerr.Controllers
         // POST: Libro/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            if (_context.Libro == null)
-            {
-                return Problem("Entity set 'AutorContext.Libro'  is null.");
-            }
-            var libro = await _context.Libro.FindAsync(id);
-            if (libro != null)
-            {
-                _context.Libro.Remove(libro);
-            }
-            
-            await _context.SaveChangesAsync();
+            // if (_context.Libro == null)
+            // {
+            //     return Problem("Entity set 'AutorContext.Libro'  is null.");
+            // }
+
+            _libroService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool LibroExists(int id)
         {
-          return (_context.Libro?.Any(e => e.Id == id)).GetValueOrDefault();
+          return _libroService.GetById(id) != null;
         }
     }
 }

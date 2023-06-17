@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SegundoParcialHerr.Models;
 using SegundoParcialHerr.Data;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace SegundoParcialHerr.Services
 {
@@ -17,28 +17,50 @@ namespace SegundoParcialHerr.Services
         }
         public void Create(Libro obj)
         {
-            throw new NotImplementedException();
+            _context.Add(obj);
+            _context.SaveChangesAsync();
         }
 
-        public void Delete(Libro obj)
+        public void Delete(int id)
         {
-            _context.Libro.Remove(obj);
-           _context.SaveChanges();
+            var obj =GetById(id);
+            
+            if (obj != null)
+            {
+                _context.Libro.Remove(obj);
+                _context.SaveChanges();
+            }
+            
         }
-
         public List<Libro> GetAll()
         {
-            throw new NotImplementedException();
+            var query = from libro in _context.Libro select libro;
+            return query.ToList();
         }
 
-        public Libro GetById(int id)
+        public List<Libro> GetAll(string NombreBuscado)
         {
-            throw new NotImplementedException();
+            var query = from libro in _context.Libro select libro;
+
+            if (!string.IsNullOrEmpty(NombreBuscado))
+            {
+                query = query.Where(x =>x.Titulo.ToLower().Contains(NombreBuscado));
+            }
+            return query.ToList();
+        }
+
+        public Libro? GetById(int id)
+        {
+            var libro = _context.Libro.Include(l => l.Autor)
+                .FirstOrDefault(m => m.Id == id);
+            
+            return libro;
         }
 
         public void Update(Libro obj)
         {
-            throw new NotImplementedException();
+            _context.Update(obj);
+            _context.SaveChanges();
         }
     }
 }

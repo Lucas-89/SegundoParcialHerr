@@ -10,8 +10,9 @@ namespace SegundoParcialHerr.Services
     {
         void Create(Libro obj);
         List<Libro> GetAll();
+        List<Libro> GetAll(string NombreBuscado);
         void Update(Libro obj );  
-        void Delete(Libro obj);
-        Libro GetById(int id);
+        void Delete(int id);
+        Libro? GetById(int id);
     }
 }
