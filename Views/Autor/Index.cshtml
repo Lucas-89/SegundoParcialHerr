@@ -1,0 +1,57 @@
+@using SegundoParcialHerr.ViewModels
+
+@model AutorViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="row">
+    <form method="get" asp-action="Index" asp-controller="Autor">
+        <div class="col-6 form-group">
+            <input class="form-control" asp-for="NombreBuscado">
+        </div>
+        <button class="btn btn-primary">Buscar</button>
+    </form>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Autores[0].Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autores[0].Nacionalidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autores[0].Contemporaneo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Autores) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nacionalidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contemporaneo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

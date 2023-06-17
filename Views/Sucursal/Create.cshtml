@@ -1,0 +1,50 @@
+@using SegundoParcialHerr.ViewModels
+
+@model SucursalCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    var libroList = ViewData ["Libros"];
+}
+
+<h1>Create</h1>
+
+<h4>Sucursal</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NombreSucursal" class="control-label"></label>
+                <input asp-for="NombreSucursal" class="form-control" />
+                <span asp-validation-for="NombreSucursal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Direccion" class="control-label"></label>
+                <input asp-for="Direccion" class="form-control" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Localidad" class="control-label"></label>
+                <input asp-for="Localidad" class="form-control" />
+                <span asp-validation-for="Localidad" class="text-danger"></span>
+            </div>
+            <h4>Seleccione los libros que cuentan con stock en esta sucursal</h4>
+            
+            <select class="" multiple asp-for="LibroId" id="Libros" asp-items="ViewBag.Libros" placeholder="select members" class="form-control w-50 dropdown">
+            </select>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

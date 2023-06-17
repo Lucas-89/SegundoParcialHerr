@@ -1,0 +1,105 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SegundoParcialHerr
+build_property.RootNamespace = SegundoParcialHerr
+build_property.ProjectDir = D:\ISTEA\2023\Herramientas 2023\SegundoParcialHerr\
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\ISTEA\2023\Herramientas 2023\SegundoParcialHerr
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Autor/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Autor/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Autor/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Autor/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Autor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0b3JcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Libro/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicm9cQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Libro/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicm9cRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Libro/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicm9cRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Libro/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicm9cRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Libro/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicm9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Sucursal/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VjdXJzYWxcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Sucursal/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VjdXJzYWxcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Sucursal/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VjdXJzYWxcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Sucursal/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VjdXJzYWxcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Sucursal/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VjdXJzYWxcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-tl7qovgoh9

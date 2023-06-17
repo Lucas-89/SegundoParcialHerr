@@ -1,0 +1,49 @@
+@using SegundoParcialHerr.ViewModels
+
+@model AutorDetailViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Autor</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nacionalidad)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nacionalidad)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Contemporaneo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Contemporaneo)
+        </dd>
+    </dl>
+     <dl>
+        <ul>
+            @foreach (var item in Model.Libros)
+            {
+                <li>
+                    @item.Titulo
+                </li>
+            }
+        </ul>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
