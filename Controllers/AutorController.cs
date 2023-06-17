@@ -7,47 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SegundoParcialHerr.Data;
 using SegundoParcialHerr.Models;
+using SegundoParcialHerr.Services;
 using SegundoParcialHerr.ViewModels;
 
 namespace SegundoParcialHerr.Controllers
 {
     public class AutorController : Controller
     {
-        private readonly AutorContext _context;
-
-        public AutorController(AutorContext context)
+        private IAutorService _autorService;
+        public AutorController(IAutorService autorService)
         {
-            _context = context;
+            _autorService = autorService;
         }
 
         // GET: Autor
-        public async Task<IActionResult> Index(string NombreBuscado)
+        public IActionResult Index(string NombreBuscado)
         {
-            var query = from autor in _context.Autor select autor;
-
-            if (!string.IsNullOrEmpty(NombreBuscado))
-            {
-                query = query.Where(x => x.Nombre.ToLower().Contains(NombreBuscado.ToLower()));
-            }
-
             var model = new AutorViewModel();
-            model.Autores= await query.ToListAsync();
+            model.Autores= _autorService.GetAll(NombreBuscado);
 
-              return _context.Autor != null ? 
-                          View(model) :
-                          Problem("Entity set 'AutorContext.Autor'  is null.");
+              return View(model);
         }
 
         // GET: Autor/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
-            if (id == null || _context.Autor == null)
+            if (id == null )
             {
                 return NotFound();
             }
 
-            var autor = await _context.Autor.Include(x=>x.Libros)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var autor = _autorService.GetById(id.Value);
             if (autor == null)
             {
                 return NotFound();
@@ -72,7 +62,7 @@ namespace SegundoParcialHerr.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Nacionalidad,Contemporaneo")] AutorCreateViewModel autor)
+        public IActionResult Create([Bind("Id,Nombre,Nacionalidad,Contemporaneo")] AutorCreateViewModel autor) 
         {
            var autorModel = new Autor();
             autorModel.Id = autor.Id;
@@ -81,22 +71,23 @@ namespace SegundoParcialHerr.Controllers
             autorModel.Contemporaneo = autor.Contemporaneo;
             if (ModelState.IsValid)
             {
-                _context.Add(autorModel);
-                await _context.SaveChangesAsync();
+                // _context.Add(autorModel);
+                // await _context.SaveChangesAsync();
+                _autorService.Create(autorModel);
                 return RedirectToAction(nameof(Index));
             }
             return View(autor);
         }
 
         // GET: Autor/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null || _context.Autor == null)
+            if (id == null )
             {
                 return NotFound();
             }
 
-            var autor = await _context.Autor.FindAsync(id);
+            var autor = _autorService.GetById(id.Value);
             if (autor == null)
             {
                 return NotFound();
@@ -109,7 +100,7 @@ namespace SegundoParcialHerr.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Nacionalidad,Contemporaneo")] AutorCreateViewModel autorView)
+        public IActionResult Edit(int id, [Bind("Id,Nombre,Nacionalidad,Contemporaneo")] AutorCreateViewModel autorView)
         {
             if (id != autorView.Id)
             {
@@ -126,8 +117,7 @@ namespace SegundoParcialHerr.Controllers
 
                 try
                 {
-                    _context.Update(autor);
-                    await _context.SaveChangesAsync();
+                    _autorService.Update(autor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -148,13 +138,12 @@ namespace SegundoParcialHerr.Controllers
         // GET: Autor/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Autor == null)
+            if (id == null )
             {
                 return NotFound();
             }
 
-            var autor = await _context.Autor
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var autor = _autorService.GetById(id.Value);
             if (autor == null)
             {
                 return NotFound();
@@ -168,23 +157,19 @@ namespace SegundoParcialHerr.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Autor == null)
-            {
-                return Problem("Entity set 'AutorContext.Autor'  is null.");
-            }
-            var autor = await _context.Autor.FindAsync(id);
-            if (autor != null)
-            {
-                _context.Autor.Remove(autor);
-            }
+            // if (_context.Autor == null)
+            // {
+            //     return Problem("Entity set 'AutorContext.Autor'  is null.");
+            // }  PONER LAS VALIDACIONES EN EL SERVICE
             
-            await _context.SaveChangesAsync();
+           _autorService.Delete(id);
+            
             return RedirectToAction(nameof(Index));
         }
 
         private bool AutorExists(int id)
         {
-          return (_context.Autor?.Any(e => e.Id == id)).GetValueOrDefault();
+          return _autorService.GetById(id) != null;
         }
     }
 }

@@ -1,12 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SegundoParcialHerr.Data;
+using SegundoParcialHerr.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AutorContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("AutorContext") ?? throw new InvalidOperationException("Connection string 'AutorContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IAutorService, AutorService>();
+builder.Services.AddScoped<ILibroService, LibroService>();
+builder.Services.AddScoped<ISucursalService, SucursalService>();
+
 
 var app = builder.Build();
 

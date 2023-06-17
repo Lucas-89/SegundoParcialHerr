@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SegundoParcialHerr.Models;
+using SegundoParcialHerr.Data;
+
 
 namespace SegundoParcialHerr.Services
 {
     public class LibroService : ILibroService
     {
+        private readonly AutorContext _context;
+        public LibroService(AutorContext context)
+        {
+            _context = context;
+        }
         public void Create(Libro obj)
         {
             throw new NotImplementedException();
@@ -15,7 +22,8 @@ namespace SegundoParcialHerr.Services
 
         public void Delete(Libro obj)
         {
-            throw new NotImplementedException();
+            _context.Libro.Remove(obj);
+           _context.SaveChanges();
         }
 
         public List<Libro> GetAll()
