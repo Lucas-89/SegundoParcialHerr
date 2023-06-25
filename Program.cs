@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SegundoParcialHerr.Data;
@@ -8,6 +9,10 @@ builder.Services.AddDbContext<AutorContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("AutorContext") ?? throw new InvalidOperationException("Connection string 'AutorContext' not found.")));
 
 // Add services to the container.
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true) // aca pide el mail de confirmacion
+    .AddRoles<IdentityRole>() //sumo esta parte
+    .AddEntityFrameworkStores<AutorContext>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IAutorService, AutorService>();
@@ -35,5 +40,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.Run();

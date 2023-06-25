@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SegundoParcialHerr.Models;
 
 namespace SegundoParcialHerr.Data
 {
-    public class AutorContext : DbContext
+    public class AutorContext : IdentityDbContext
     {
         public AutorContext (DbContextOptions<AutorContext> options)
             : base(options)
