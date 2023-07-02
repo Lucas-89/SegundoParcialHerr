@@ -7,8 +7,8 @@ namespace SegundoParcialHerr.Utils
 {
     public enum TipoGenero
     {
-        Policial,
-        CienciaFiccion,
+        Infantil,
+        Ficcion,
         Terror,
         Biografia,
         Suspenso,
