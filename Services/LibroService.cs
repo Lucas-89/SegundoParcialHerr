@@ -35,7 +35,7 @@ namespace SegundoParcialHerr.Services
         public List<Libro> GetAll()
         {
             var query = from libro in _context.Libro select libro;
-            return query.ToList();
+            return query.Include(x=> x.Autor).ToList(); 
         }
 
         public List<Libro> GetAll(string NombreBuscado)
@@ -46,7 +46,7 @@ namespace SegundoParcialHerr.Services
             {
                 query = query.Where(x =>x.Titulo.ToLower().Contains(NombreBuscado));
             }
-            return query.ToList();
+            return query.Include(x=> x.Autor).ToList();
         }
 
         public Libro? GetById(int id)

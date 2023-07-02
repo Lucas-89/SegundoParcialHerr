@@ -18,11 +18,13 @@ namespace SegundoParcialHerr.Controllers
         // private readonly AutorContext _context;
         private readonly ILibroService _libroService;
         private readonly IAutorService _autorService;
+        private readonly ISucursalService _sucursalService;
 
-        public LibroController(ILibroService libroService, IAutorService autorService)
+        public LibroController(ILibroService libroService, IAutorService autorService, ISucursalService sucursalService)
         {
             _libroService = libroService;
             _autorService = autorService;
+            _sucursalService = sucursalService;
         }
 
         // GET: Libro
@@ -33,10 +35,25 @@ namespace SegundoParcialHerr.Controllers
             // {
             //     query = query.Where(x =>x.Titulo.ToLower().Contains(NombreBuscado));
             // }
-            var model = new LibroViewModel();
-            model.Libros = _libroService.GetAll(NombreBuscado);
+            // var model = new LibroViewModel();
+            var libros =  _libroService.GetAll(NombreBuscado);
+
+            var listaVM = new List<LibroViewModel>();
+            foreach (var item in libros)
+            {
+                var libroVM = new LibroViewModel(){
+                    Id = item.Id,
+                    Titulo = item.Titulo,
+                    Genero = item.Genero,
+                    Precio = item.Precio,
+                    Stock = item.Stock,
+                    AutorNombre = item.Autor.Nombre,
+                };
+                listaVM.Add(libroVM);
+            }
+
             // var autorContext = _context.Libro.Include(l => l.Autor);
-            return View(model);
+            return View(listaVM);
         }
 
         // GET: Libro/Details/5
@@ -154,6 +171,45 @@ namespace SegundoParcialHerr.Controllers
             return View(libro);
         }
 
+
+        public IActionResult UpdateStock(int? id){
+           if (id == null )
+            {
+                return NotFound();
+            }
+
+            var libro = _libroService.GetById(id.Value);
+            if (libro == null)
+            {
+                return NotFound();
+            }
+            var libroUp = new LibroUpdateStockViewModel(){
+                Id = libro.Id,
+                Titulo = libro.Titulo,
+                Precio = libro.Precio,
+                Stock = libro.Stock
+            };
+            ViewData ["Sucursales"] = new SelectList(_sucursalService.GetAll(),"Id","Nombre");
+            return View(libroUp);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateStock(LibroUpdateStockViewModel model){
+            var libro = _libroService.GetById(model.Id);
+            if (libro == null)
+            {
+                return NotFound();
+            }
+
+            if (model.CantidadCompra< libro.Stock)
+            {
+                libro.Stock = libro.Stock - model.CantidadCompra;
+                _libroService.Update(libro); 
+            }
+
+            return RedirectToAction("Index");
+        }
         // GET: Libro/Delete/5
         public IActionResult Delete(int? id)
         {

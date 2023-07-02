@@ -30,7 +30,12 @@ namespace SegundoParcialHerr.Services
                 _context.SaveChanges();
             }
         }
+        public List<Sucursal> GetAll()
+        {
+            var query = from sucursal in _context.Sucursal select sucursal;
 
+            return query.ToList();
+        }
         public List<Sucursal> GetAll(string NombreBuscado)
         {
             var query = from sucursal in _context.Sucursal select sucursal;

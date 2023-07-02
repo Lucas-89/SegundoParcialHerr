@@ -1,0 +1,33 @@
+@using SegundoParcialHerr.ViewModels
+
+@model LibroUpdateStockViewModel
+
+@{
+    ViewData["Title"] = "Comprar";
+}
+
+<h1>Formulario de Compra</h1>
+
+<h4>Libro</h4>
+<hr />
+
+<h3>Estas comprando: @Model.Titulo</h3>
+<h3>Precio Unitario: @Model.Precio</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateStock">
+            <div class="form-group">
+                <label asp-for="CantidadCompra" class="control-label"></label>
+                <input asp-for="CantidadCompra" class="form-control" />
+                <span asp-validation-for="CantidadCompra" class="text-danger" placeholder="Ingresa la cantidad "></span>
+            </div>
+            <div>
+                <h3>hacer un selector de sucursal</h3>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirmar Compra" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>    

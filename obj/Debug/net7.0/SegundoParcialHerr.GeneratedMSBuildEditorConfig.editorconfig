@@ -68,6 +68,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicm9cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Libro/UpdateStock.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicm9cVXBkYXRlU3RvY2suY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Roles/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Roles/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -98,6 +110,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Sucursal/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VjdXJzYWxcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Users/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/Users/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/ISTEA/2023/Herramientas 2023/SegundoParcialHerr/Views/_ViewImports.cshtml]
