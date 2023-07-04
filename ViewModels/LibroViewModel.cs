@@ -19,5 +19,5 @@ public class LibroViewModel
         [Display(Name ="Autor")]
         public string AutorNombre{get;set;}
 
-    public string NombreBuscado{get;set;}
+        public string NombreBuscado{get;set;}
 }

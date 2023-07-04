@@ -9,7 +9,7 @@ using SegundoParcialHerr.Data;
 using SegundoParcialHerr.Models;
 using SegundoParcialHerr.ViewModels;
 using SegundoParcialHerr.Services;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace SegundoParcialHerr.Controllers
 {
@@ -42,7 +42,7 @@ namespace SegundoParcialHerr.Controllers
         }
 
         // GET: Sucursal/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -55,8 +55,16 @@ namespace SegundoParcialHerr.Controllers
                 return NotFound();
             }
 
-            return View(sucursal);
+            var sucursalVM = new SucursalDetailViewModel();
+            sucursalVM.Direccion = sucursal.Direccion;
+            sucursalVM.NombreSucursal = sucursal.NombreSucursal;
+            sucursalVM.Localidad = sucursal.Localidad;
+            sucursalVM.Libros = sucursal.Libros !=null? sucursal.Libros : new List<Libro>();
+
+            return View(sucursalVM);
         }
+
+        [Authorize(Roles = "Administrador")]
 
         // GET: Sucursal/Create
         public IActionResult Create()
@@ -92,6 +100,8 @@ namespace SegundoParcialHerr.Controllers
         }
 
         // GET: Sucursal/Edit/5
+        [Authorize(Roles = "Administrador, Usuario")]
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,10 +111,16 @@ namespace SegundoParcialHerr.Controllers
 
             var sucursal = _sucursalService.GetById(id.Value);
             if (sucursal == null)
-            {
+            {   
                 return NotFound();
             }
-            return View(sucursal);
+            var sucursalVM = new SucursalCreateViewModel();
+            sucursalVM.Direccion = sucursal.Direccion;
+            sucursalVM.NombreSucursal = sucursal.NombreSucursal;
+            sucursalVM.Localidad= sucursal.Localidad;
+            ViewData["Libros"] = new SelectList(_librolService.GetAll(), "Id","Titulo"); 
+
+            return View(sucursalVM);
         }
 
         // POST: Sucursal/Edit/5
@@ -112,7 +128,7 @@ namespace SegundoParcialHerr.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NombreSucursal,Direccion,Localidad")] SucursalCreateViewModel sucursalView)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NombreSucursal,Direccion,Localidad,LibroId")] SucursalCreateViewModel sucursalView)
         {
             if (id != sucursalView.Id)
             {
@@ -121,11 +137,14 @@ namespace SegundoParcialHerr.Controllers
 
             if (ModelState.IsValid)
             {
+                var libros = _librolService.GetAll(); //traigo todos los libros y los guardo en la variable
+
                 var sucursal = new Sucursal();
                 sucursal.Id = sucursalView.Id;
                 sucursal.NombreSucursal = sucursalView.NombreSucursal;
                 sucursal.Direccion = sucursalView.Direccion;
                 sucursal.Localidad = sucursalView.Localidad;
+                sucursal.Libros = libros;
 
                 try
                 {
@@ -144,8 +163,10 @@ namespace SegundoParcialHerr.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(sucursalView);
+            return View(sucursalView); // deberia ser sucursal
         }
+
+        [Authorize(Roles = "Administrador")]
 
         // GET: Sucursal/Delete/5
         public async Task<IActionResult> Delete(int? id)

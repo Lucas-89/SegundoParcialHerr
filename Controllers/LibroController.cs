@@ -9,7 +9,7 @@ using SegundoParcialHerr.Data;
 using SegundoParcialHerr.Models;
 using SegundoParcialHerr.ViewModels;
 using SegundoParcialHerr.Services;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace SegundoParcialHerr.Controllers
 {
@@ -48,6 +48,7 @@ namespace SegundoParcialHerr.Controllers
                     Precio = item.Precio,
                     Stock = item.Stock,
                     AutorNombre = item.Autor.Nombre,
+                    // Libros = libros
                 };
                 listaVM.Add(libroVM);
             }
@@ -77,6 +78,8 @@ namespace SegundoParcialHerr.Controllers
         }
 
         // GET: Libro/Create
+        [Authorize(Roles = "Administrador")]
+        
         public IActionResult Create()
         {
             ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre");
@@ -113,6 +116,8 @@ namespace SegundoParcialHerr.Controllers
         }
 
         // GET: Libro/Edit/5
+        [Authorize(Roles = "Administrador, Usuario")]
+
         public IActionResult Edit(int? id)
         {
             if (id == null )
@@ -211,6 +216,8 @@ namespace SegundoParcialHerr.Controllers
             return RedirectToAction("Index");
         }
         // GET: Libro/Delete/5
+        [Authorize(Roles = "Administrador")]
+
         public IActionResult Delete(int? id)
         {
             if (id == null)

@@ -42,7 +42,7 @@ namespace SegundoParcialHerr.Services
 
             if (!string.IsNullOrEmpty(NombreBuscado))
             {
-                query = query.Where(x => x.NombreSucursal.ToLower().Contains(NombreBuscado.ToLower()));
+                query = query.Where(x => x.NombreSucursal.ToLower().Contains(NombreBuscado.ToLower()) || x.Direccion.ToLower().Contains(NombreBuscado.ToLower())  );
             }
             return query.ToList();
         }

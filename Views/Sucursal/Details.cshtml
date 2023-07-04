@@ -1,4 +1,6 @@
-@model SegundoParcialHerr.Models.Sucursal
+@using SegundoParcialHerr.ViewModels
+
+@model SucursalDetailViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -28,6 +30,17 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Localidad)
         </dd>
+    </dl>
+     <dl>
+        <ul>
+            Libros
+            @foreach (var item in Model.Libros)
+            {
+                <li>
+                   Libro: @item.Titulo
+                </li>
+            }
+        </ul>
     </dl>
 </div>
 <div>

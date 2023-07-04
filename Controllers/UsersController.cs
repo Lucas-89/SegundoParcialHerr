@@ -8,6 +8,8 @@ using SegundoParcialHerr.ViewModels;
 
 namespace SegundoParcialHerr.Controllers;
 
+[Authorize(Roles = "Administrador, Usuario")]
+
 public class UsersController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -42,10 +44,13 @@ public class UsersController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(UserEditViewModel model)
     {
-            // agregar validaciones. Inclusive se puede hacer en un servicio?
         var user = await _userManager.FindByNameAsync(model.UserName);
         if (user != null)
-        {
+        {   //tomo el rol actual en una variable
+            var rolActual = await _userManager.GetRolesAsync(user);
+            //borra el rol actual 
+            await _userManager.RemoveFromRolesAsync(user, rolActual); 
+            //le asigna el nuevo
             await _userManager.AddToRoleAsync(user, model.Role);
         }
         return RedirectToAction("Index");

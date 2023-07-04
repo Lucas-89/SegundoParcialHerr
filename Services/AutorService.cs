@@ -44,7 +44,7 @@ namespace SegundoParcialHerr.Services
 
             if (!string.IsNullOrEmpty(NombreBuscado))
             {
-                query = query.Where(x => x.Nombre.ToLower().Contains(NombreBuscado.ToLower()));
+                query = query.Where(x => x.Nombre.ToLower().Contains(NombreBuscado.ToLower()) || x.Nacionalidad.ToLower().Contains(NombreBuscado.ToLower()) );
             }
             return query.ToList();
         }

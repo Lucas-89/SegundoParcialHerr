@@ -1,7 +1,12 @@
-@model SegundoParcialHerr.Models.Sucursal
+@using SegundoParcialHerr.ViewModels
+
+@model SucursalCreateViewModel
+
 
 @{
     ViewData["Title"] = "Edit";
+    var libroList = ViewData ["Libros"];
+
 }
 
 <h1>Edit</h1>
@@ -28,6 +33,10 @@
                 <input asp-for="Localidad" class="form-control" />
                 <span asp-validation-for="Localidad" class="text-danger"></span>
             </div>
+            <h4>Seleccione stock de Libros</h4>
+            
+            <select class="" multiple asp-for="LibroId" id="Libros" asp-items="ViewBag.Libros" placeholder="select members" class="form-control w-50 dropdown">
+            </select>
             <div class="form-group">
                 <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
             </div>
@@ -36,7 +45,7 @@
 </div>
 
 <div>
-    <button type="button" class="btn btn-secondary" asp-action="Index">Volver</button>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

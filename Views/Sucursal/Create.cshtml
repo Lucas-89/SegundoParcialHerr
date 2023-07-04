@@ -30,7 +30,7 @@
                 <input asp-for="Localidad" class="form-control" />
                 <span asp-validation-for="Localidad" class="text-danger"></span>
             </div>
-            <h4>Seleccione los libros que cuentan con stock en esta sucursal</h4>
+            <h4>Seleccione libros con stock en esta sucursal</h4>
             
             <select class="" multiple asp-for="LibroId" id="Libros" asp-items="ViewBag.Libros" placeholder="select members" class="form-control w-50 dropdown">
             </select>

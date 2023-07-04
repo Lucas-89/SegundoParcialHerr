@@ -3,11 +3,16 @@
 @model List<IdentityRole>
 
 <h2>Roles</h2>
+<p>
+    <a asp-action="Create">Crear Role</a>
+</p>
+
 <ul>
 @foreach (var item in Model)
 {
     <li>
-        @item.Name
+        <a asp-action="Edit" asp-route-itemid="@item.Id">@item.Name</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
     </li>  
 }
 </ul>
