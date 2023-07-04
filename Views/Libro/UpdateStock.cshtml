@@ -12,7 +12,8 @@
 <hr />
 
 <h3>Estas comprando: @Model.Titulo</h3>
-<h3>Precio Unitario: @Model.Precio</h3>
+<h5>Precio Unitario: $@Model.Precio</h5>
+<h5>Cantidad Disponible: @Model.Stock</h5>
 
 <div class="row">
     <div class="col-md-4">
@@ -20,10 +21,10 @@
             <div class="form-group">
                 <label asp-for="CantidadCompra" class="control-label"></label>
                 <input asp-for="CantidadCompra" class="form-control" />
-                <span asp-validation-for="CantidadCompra" class="text-danger" placeholder="Ingresa la cantidad "></span>
+                <span asp-validation-for="CantidadCompra" class="text-danger" placeholder="Ingresa la cantidad " max="@Model.Stock"></span>
             </div>
             <div>
-                <h3>hacer un selector de sucursal</h3>
+                @* <h3>hacer un selector de sucursal</h3> *@
             </div>
             <div class="form-group">
                 <input type="submit" value="Confirmar Compra" class="btn btn-primary" />
