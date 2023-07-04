@@ -14,6 +14,6 @@ namespace SegundoParcialHerr.ViewModels
         public string Direccion{get;set;}
         public string Localidad{get;set;}
         // public bool Contemporaneo{get;set;}
-        public List<Libro> Libros{get;set;} 
+        public List<Libro> Libros{get;set;} = new List<Libro>();
     }
 }

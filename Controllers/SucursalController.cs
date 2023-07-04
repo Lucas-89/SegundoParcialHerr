@@ -56,11 +56,12 @@ namespace SegundoParcialHerr.Controllers
             }
 
             var sucursalVM = new SucursalDetailViewModel();
+            sucursalVM.Id = sucursal.Id;
             sucursalVM.Direccion = sucursal.Direccion;
             sucursalVM.NombreSucursal = sucursal.NombreSucursal;
             sucursalVM.Localidad = sucursal.Localidad;
-            sucursalVM.Libros = sucursal.Libros !=null? sucursal.Libros : new List<Libro>();
-
+            //sucursalVM.Libros = sucursal.Libros !=null? sucursal.Libros : new List<Libro>();
+            sucursalVM.Libros = _librolService.GetAll();
             return View(sucursalVM);
         }
 
@@ -115,6 +116,7 @@ namespace SegundoParcialHerr.Controllers
                 return NotFound();
             }
             var sucursalVM = new SucursalCreateViewModel();
+            sucursalVM.Id = sucursal.Id;
             sucursalVM.Direccion = sucursal.Direccion;
             sucursalVM.NombreSucursal = sucursal.NombreSucursal;
             sucursalVM.Localidad= sucursal.Localidad;

@@ -8,7 +8,7 @@ namespace SegundoParcialHerr.ViewModels
 {
     public class SucursalViewModel
     {
-        public List<Sucursal> Sucursales {get; set;} =new();
+        public List<Sucursal> Sucursales {get; set;} =new List<Sucursal>();
         public string NombreBuscado{get;set;} 
         public Libro Libro{get;set;}
     }
