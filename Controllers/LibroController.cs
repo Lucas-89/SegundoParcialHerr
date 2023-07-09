@@ -36,25 +36,26 @@ namespace SegundoParcialHerr.Controllers
             //     query = query.Where(x =>x.Titulo.ToLower().Contains(NombreBuscado));
             // }
             // var model = new LibroViewModel();
-            var libros =  _libroService.GetAll(NombreBuscado);
+            var libroVM = new LibroViewModel();
+            libroVM.Libros =  _libroService.GetAll(NombreBuscado);
 
-            var listaVM = new List<LibroViewModel>();
-            foreach (var item in libros)
-            {
-                var libroVM = new LibroViewModel(){
-                    Id = item.Id,
-                    Titulo = item.Titulo,
-                    Genero = item.Genero,
-                    Precio = item.Precio,
-                    Stock = item.Stock,
-                    AutorNombre = item.Autor.Nombre,
-                    // Libros = libros
-                };
-                listaVM.Add(libroVM);
-            }
+            // var listaVM = new List<LibroViewModel>();
+            // foreach (var item in libros)
+            // {
+            //     var libroVM = new LibroViewModel(){
+            //         Id = item.Id,
+            //         Titulo = item.Titulo,
+            //         Genero = item.Genero,
+            //         Precio = item.Precio,
+            //         Stock = item.Stock,
+            //         AutorNombre = item.Autor.Nombre,
+            //         // Libros = libros
+            //     };
+            //     listaVM.Add(libroVM);
+            // }
 
             // var autorContext = _context.Libro.Include(l => l.Autor);
-            return View(listaVM);
+            return View(libroVM);
         }
 
         // GET: Libro/Details/5
@@ -83,6 +84,7 @@ namespace SegundoParcialHerr.Controllers
         public IActionResult Create()
         {
             ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre");
+            ViewData["Sucursales"] = new SelectList(_sucursalService.GetAll(), "Id", "NombreSucursal");
             return View();
         }
 
@@ -93,7 +95,12 @@ namespace SegundoParcialHerr.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Titulo,Genero,Precio,Stock,AutorId,autores")] LibroCreateViewModel libro)
         {
-            var autores = _autorService.GetAll(); //VER ESTA PARTE
+            var autores = _autorService.GetAll(); // esto lo tengo que usar en el ViewData. Es mi lista de Autores
+
+            //ahora necesito mi lista de Sucursales
+
+            var sucursales = _sucursalService.GetAll(); // Tengo que hacer un segundo VData para usar esto
+                                                        // Pero puede que como uso el servicio no necesite el VData
 
             var libroNuevo = new Libro();
             libroNuevo.Id = libro.Id;
@@ -101,8 +108,9 @@ namespace SegundoParcialHerr.Controllers
             libroNuevo.Genero = libro.Genero;
             libroNuevo.Precio = libro.Precio;
             libroNuevo.Stock = libro.Stock;
-            libroNuevo.AutorId = libro.AutorId; // ACA TAMBIEN
-            
+            libroNuevo.AutorId = libro.AutorId; 
+            // libroNuevo.Sucursales = sucursales; // uso la lista de sucursales.NO!!! Necesito un VData
+
             // ModelState.Remove("A");
             if (ModelState.IsValid)
             {
@@ -113,6 +121,8 @@ namespace SegundoParcialHerr.Controllers
             }
             ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre", libro.AutorId);
             return View(libro);
+
+
         }
 
         // GET: Libro/Edit/5
@@ -177,7 +187,7 @@ namespace SegundoParcialHerr.Controllers
         }
 
 
-        public IActionResult UpdateStock(int? id){
+        public IActionResult UpdateStock(int? id, int cantCompra){
            if (id == null )
             {
                 return NotFound();
@@ -188,6 +198,7 @@ namespace SegundoParcialHerr.Controllers
             {
                 return NotFound();
             }
+
             var libroUp = new LibroUpdateStockViewModel(){
                 Id = libro.Id,
                 Titulo = libro.Titulo,
@@ -207,13 +218,16 @@ namespace SegundoParcialHerr.Controllers
                 return NotFound();
             }
 
-            if (model.CantidadCompra< libro.Stock)
+            if (model.CantidadCompra<= libro.Stock)
             {
                 libro.Stock = libro.Stock - model.CantidadCompra;
-                _libroService.Update(libro); 
+                _libroService.Update(libro);
             }
 
+            
+            
             return RedirectToAction("Index");
+            
         }
         // GET: Libro/Delete/5
         [Authorize(Roles = "Administrador")]

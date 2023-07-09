@@ -85,14 +85,15 @@ namespace SegundoParcialHerr.Controllers
 
             if (ModelState.IsValid)
             {   
-                var libros = _libroService.GetAll(); //traigo todos los libros y los guardo en la variable
+                var libros = _libroService.GetAll(); //traigo todos los libros y los guardo en la variable. Capas aca es el .Where
 
                 var sucursal = new Sucursal();
                 sucursal.Id = sucursalView.Id;
                 sucursal.NombreSucursal = sucursalView.NombreSucursal;
                 sucursal.Direccion = sucursalView.Direccion;
                 sucursal.Localidad = sucursalView.Localidad;
-                sucursal.Libros = libros;
+                sucursal.Libros = libros; // aca que campo esta completando si no tengo 
+                // un Lista de Libros
 
                 _sucursalService.Create(sucursal);
                 return RedirectToAction(nameof(Index));
@@ -143,11 +144,14 @@ namespace SegundoParcialHerr.Controllers
 
                 // var sucursal = new Sucursal();
                 // sucursal.Id = sucursalView.Id;
-                var sucursal = _sucursalService.GetById(sucursalView.Id);
+                var sucursal = _sucursalService.GetById(sucursalView.Id); // ver si aca la declaro como Sucursal
+                
                 sucursal.NombreSucursal = sucursalView.NombreSucursal;
                 sucursal.Direccion = sucursalView.Direccion;
                 sucursal.Localidad = sucursalView.Localidad;
-                sucursal.Libros = libros;
+                sucursal.Libros = libros; //que pasa si no le paso esto? 
+                //validaria el modelo pero no tendria la relacion de libro/sucursal?
+                // Es que nunca la tuve...
 
                 // _sucursalService.Update(sucursal); 
                 try

@@ -1,0 +1,20 @@
+@using SegundoParcialHerr.ViewModels
+
+@model LibroBuyedViewModel
+
+@{
+    ViewData["Title"] = "Detalle Compra";
+}
+
+<div class="card">
+  <h5 class="card-header">Detalle de tu Compra</h5>
+  <div class="card-body">
+    <h5 class="card-title">@Model.Titulo</h5>
+    <p class="card-text">
+        Gracias por tu compra de @Model.CantTotal unidad/es <br> Recorda que elegiste 
+        retirar tu producto por la sucursal @Model.SucursalNombre
+    </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+

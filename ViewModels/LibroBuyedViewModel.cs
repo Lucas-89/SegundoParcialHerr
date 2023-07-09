@@ -7,18 +7,16 @@ using SegundoParcialHerr.Models;
 
 namespace SegundoParcialHerr.ViewModels
 {
-    public class LibroUpdateStockViewModel
+    public class LibroBuyedViewModel
     {
         public int Id {get;set;}
         public string Titulo {get;set;}
         public int Precio{get;set;}
-
-        [Display(Name ="Cantidad")]
-        public int Stock {get;set;}
         public int CantidadCompra{get; set;}
-        public List<Sucursal> Sucursales {get;set;}
+        public Sucursal SucursalNombre {get;set;}
 
-        // public string? Error {get;set;}
+        public int CantTotal{get;set;}
 
     }
-}
+
+}    

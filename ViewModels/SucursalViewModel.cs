@@ -10,6 +10,8 @@ namespace SegundoParcialHerr.ViewModels
     {
         public List<Sucursal> Sucursales {get; set;} =new List<Sucursal>();
         public string NombreBuscado{get;set;} 
-        public Libro Libro{get;set;}
+        public Libro Libro{get;set;} //probar cambiar esto por una lista
+
+        public List<Libro>Libros {get;set;} = new List<Libro>();
     }
 }

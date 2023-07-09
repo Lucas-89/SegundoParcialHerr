@@ -14,7 +14,7 @@ namespace SegundoParcialHerr.ViewModels
         public TipoGenero Genero {get;set;}
         public int Precio{get;set;}
         public int Stock{get;set;}
-        public int AutorId{get;set;}
-        //public List<Autor> autores{get;set;}
+        public int AutorId{get;set;} //veo si saco esta
+        public List<int> SucursalesId {get;set;} //agrego esta lista de int SucursalesId
     }
 }
