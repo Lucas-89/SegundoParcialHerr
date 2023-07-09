@@ -17,12 +17,12 @@ namespace SegundoParcialHerr.Controllers
     {
         // private readonly AutorContext _context;
         private ISucursalService _sucursalService;
-        private ILibroService _librolService;
+        private ILibroService _libroService;
 
         public SucursalController(ISucursalService sucursalService, ILibroService libroService)
         {
             _sucursalService = sucursalService;
-            _librolService = libroService;
+            _libroService = libroService;
         }
 
         // GET: Sucursal
@@ -61,7 +61,7 @@ namespace SegundoParcialHerr.Controllers
             sucursalVM.NombreSucursal = sucursal.NombreSucursal;
             sucursalVM.Localidad = sucursal.Localidad;
             //sucursalVM.Libros = sucursal.Libros !=null? sucursal.Libros : new List<Libro>();
-            sucursalVM.Libros = _librolService.GetAll();
+            sucursalVM.Libros = _libroService.GetAll();
             return View(sucursalVM);
         }
 
@@ -70,7 +70,7 @@ namespace SegundoParcialHerr.Controllers
         // GET: Sucursal/Create
         public IActionResult Create()
         {
-            ViewData["Libros"] = new SelectList(_librolService.GetAll(), "Id","Titulo"); 
+            ViewData["Libros"] = new SelectList(_libroService.GetAll(), "Id","Titulo"); 
             return View();
         }
 
@@ -85,7 +85,7 @@ namespace SegundoParcialHerr.Controllers
 
             if (ModelState.IsValid)
             {   
-                var libros = _librolService.GetAll(); //traigo todos los libros y los guardo en la variable
+                var libros = _libroService.GetAll(); //traigo todos los libros y los guardo en la variable
 
                 var sucursal = new Sucursal();
                 sucursal.Id = sucursalView.Id;
@@ -103,7 +103,7 @@ namespace SegundoParcialHerr.Controllers
         // GET: Sucursal/Edit/5
         [Authorize(Roles = "Administrador, Usuario")]
 
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -120,7 +120,7 @@ namespace SegundoParcialHerr.Controllers
             sucursalVM.Direccion = sucursal.Direccion;
             sucursalVM.NombreSucursal = sucursal.NombreSucursal;
             sucursalVM.Localidad= sucursal.Localidad;
-            ViewData["Libros"] = new SelectList(_librolService.GetAll(), "Id","Titulo"); 
+            ViewData["Libros"] = new SelectList(_libroService.GetAll(), "Id","Titulo"); 
 
             return View(sucursalVM);
         }
@@ -139,18 +139,25 @@ namespace SegundoParcialHerr.Controllers
 
             if (ModelState.IsValid)
             {
-                var libros = _librolService.GetAll(); //traigo todos los libros y los guardo en la variable
+                var libros = _libroService.GetAll().Where(x=>sucursalView.LibroId.Contains(x.Id)).ToList(); //traigo todos los libros y los guardo en la variable
 
-                var sucursal = new Sucursal();
-                sucursal.Id = sucursalView.Id;
+                // var sucursal = new Sucursal();
+                // sucursal.Id = sucursalView.Id;
+                var sucursal = _sucursalService.GetById(sucursalView.Id);
                 sucursal.NombreSucursal = sucursalView.NombreSucursal;
                 sucursal.Direccion = sucursalView.Direccion;
                 sucursal.Localidad = sucursalView.Localidad;
                 sucursal.Libros = libros;
 
+                // _sucursalService.Update(sucursal); 
                 try
                 {
+                    // foreach (var item in libros)
+                    // {
+                    // _libroService.Update(item);
+                    // }
                     _sucursalService.Update(sucursal);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -165,7 +172,7 @@ namespace SegundoParcialHerr.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(sucursalView); // deberia ser sucursal
+            return View(sucursalView); 
         }
 
         [Authorize(Roles = "Administrador")]

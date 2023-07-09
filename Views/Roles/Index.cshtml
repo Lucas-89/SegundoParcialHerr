@@ -11,8 +11,7 @@
 @foreach (var item in Model)
 {
     <li>
-        <a asp-action="Edit" asp-route-itemid="@item.Id">@item.Name</a> |
-        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+       Rol: @item.Name
     </li>  
 }
 </ul>

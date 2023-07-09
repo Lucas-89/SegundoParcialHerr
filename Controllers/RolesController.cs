@@ -54,50 +54,5 @@ public class RolesController : Controller
         return RedirectToAction("Index");
     }
 
-    public async Task<IActionResult> Edit(string id)
-    {
-        var role = await _roleManager.FindByIdAsync(id);
-
-        var roleVM = new RoleCreateViewModel();
-        roleVM.RoleName = role.Name ?? string.Empty;
-
-        return View(roleVM);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Edit(RoleCreateViewModel model)
-    {
-        var role = await _roleManager.FindByNameAsync(model.RoleName);
-        if (model != null)
-        {
-            await _roleManager.UpdateAsync(role);
-        }
-        return RedirectToAction("Index");
-    }
-
-    public async Task<IActionResult> Delete(string id)
-    {
-        if (id == null )
-        {
-            return NotFound();
-        }
-
-        var rol = await _roleManager.FindByIdAsync(id);
-        if (rol == null)
-        {
-            return NotFound();
-        }
-
-        return View(rol);
-    }
-    [HttpPost]
-    public async Task<IActionResult> DeleteConfirmed(string id)
-    {
-        var rol = await _roleManager.FindByIdAsync(id);
-
-        await _roleManager.DeleteAsync(rol);
-        
-        return RedirectToAction(nameof(Index));
-    }
 
 }
