@@ -93,14 +93,14 @@ namespace SegundoParcialHerr.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Titulo,Genero,Precio,Stock,AutorId,autores")] LibroCreateViewModel libro)
+        public IActionResult Create([Bind("Id,Titulo,Genero,Precio,Stock,AutorId,autores,SucursalesId")] LibroCreateViewModel libro)
         {
             var autores = _autorService.GetAll(); // esto lo tengo que usar en el ViewData. Es mi lista de Autores
 
             //ahora necesito mi lista de Sucursales
 
-            var sucursales = _sucursalService.GetAll(); // Tengo que hacer un segundo VData para usar esto
-                                                        // Pero puede que como uso el servicio no necesite el VData
+            var sucursales = _sucursalService.GetAll().Where(x=> libro.SucursalesId.Contains(x.Id)).ToList(); // Tengo que hacer un segundo VData para usar esto
+                                                        // Pero ¿puede que como uso el servicio no necesite el VData?
 
             var libroNuevo = new Libro();
             libroNuevo.Id = libro.Id;
@@ -109,7 +109,7 @@ namespace SegundoParcialHerr.Controllers
             libroNuevo.Precio = libro.Precio;
             libroNuevo.Stock = libro.Stock;
             libroNuevo.AutorId = libro.AutorId; 
-            // libroNuevo.Sucursales = sucursales; // uso la lista de sucursales.NO!!! Necesito un VData
+            libroNuevo.Sucursales = sucursales; // uso la lista de sucursales a ver si se puede
 
             // ModelState.Remove("A");
             if (ModelState.IsValid)
@@ -119,7 +119,11 @@ namespace SegundoParcialHerr.Controllers
                 _libroService.Create(libroNuevo);
                 return RedirectToAction(nameof(Index));
             }
+
+            // este VData sirve de algo? en caso que el modelo no sea valido, al recargar la pagina
+            // vuelve a rellenar la lista de autores
             ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre", libro.AutorId);
+            ViewData["Sucursales"] = new SelectList(_sucursalService.GetAll(), "Id", "NombreSucursal", libro.SucursalesId);
             return View(libro);
 
 
@@ -140,8 +144,26 @@ namespace SegundoParcialHerr.Controllers
             {
                 return NotFound();
             }
+
+            // tengo que crear un libroVM y completar los campos.
+            // Tambien tengo que revisar que recibe la vista: Model o VModel?
+
+            var libroVM = new LibroCreateViewModel();
+            libroVM.Id = libro.Id;
+            libroVM.Titulo = libro.Titulo;
+            libroVM.Genero = libro.Genero;
+            libroVM.Precio = libro.Precio;
+            libroVM.Stock = libro.Stock;
+            libroVM.AutorId = libro.AutorId;
+            // libroVM.SucursalesId = ;  ACA DEBERIA HACER UN VData para mostrar la lista? SI
+            // ademas lo tengo que mostrar en el View Edit
+
             ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre", libro.AutorId);
-            return View(libro);
+
+            var sucursalList = _sucursalService.GetAll();
+            ViewData["Sucursales"] = new SelectList(sucursalList,"Id", "NombreSucursal",libro.Sucursales);
+
+            return View(libroVM);
         } 
 
         // POST: Libro/Edit/5
@@ -149,7 +171,7 @@ namespace SegundoParcialHerr.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Titulo,Genero,Precio,Stock,AutorId")] LibroCreateViewModel libro)
+        public IActionResult Edit(int id, [Bind("Id,Titulo,Genero,Precio,Stock,AutorId,SucursalesId")] LibroCreateViewModel libro)
         {
             if (id != libro.Id)
             {

@@ -1,4 +1,7 @@
-@model SegundoParcialHerr.Models.Libro
+
+@using SegundoParcialHerr.ViewModels;
+@model LibroCreateViewModel
+
 
 @{
     ViewData["Title"] = "Edit";
@@ -44,6 +47,11 @@
                 <label asp-for="AutorId" class="control-label">Autor</label>
                 <select asp-for="AutorId" class="form-control" asp-items="ViewBag.AutorId"></select>
                 <span asp-validation-for="AutorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SucursalesId" class="control-label">Actualizar Sucursales</label>
+                <select asp-for="SucursalesId" class="form-control" asp-items="ViewBag.Sucursales"></select>
+                <span asp-validation-for="SucursalesId" class="text-danger"></span>
             </div>
             <br>
             <div class="form-group">
