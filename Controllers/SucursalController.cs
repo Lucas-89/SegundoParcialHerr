@@ -85,7 +85,8 @@ namespace SegundoParcialHerr.Controllers
 
             if (ModelState.IsValid)
             {   
-                var libros = _libroService.GetAll(); //traigo todos los libros y los guardo en la variable. Capas aca es el .Where
+                var libros = _libroService.GetAll().Where(x =>sucursalView.LibroId.Contains(x.Id)).ToList(); 
+                //traigo todos los libros de esa sucursal
 
                 var sucursal = new Sucursal();
                 sucursal.Id = sucursalView.Id;
@@ -145,7 +146,7 @@ namespace SegundoParcialHerr.Controllers
                 // var sucursal = new Sucursal();
                 // sucursal.Id = sucursalView.Id;
                 var sucursal = _sucursalService.GetById(sucursalView.Id); // ver si aca la declaro como Sucursal
-                
+
                 sucursal.NombreSucursal = sucursalView.NombreSucursal;
                 sucursal.Direccion = sucursalView.Direccion;
                 sucursal.Localidad = sucursalView.Localidad;
