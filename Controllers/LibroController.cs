@@ -180,13 +180,21 @@ namespace SegundoParcialHerr.Controllers
 
             if (ModelState.IsValid)
             {
-                var libroNuevo = new Libro();
-                libroNuevo.Id = libro.Id;
+                // traigo las sucursales que tiene el libro
+                var sucursales = _sucursalService.GetAll().Where(x=>libro.SucursalesId.Contains(x.Id)).ToList();
+
+                // deberia poder traer el autor con el servicio de _autor
+                var autor = _autorService.GetById(libro.AutorId);
+
+                var libroNuevo = _libroService.GetById(libro.Id);
+                // libroNuevo.Id = libro.Id;
                 libroNuevo.Titulo = libro.Titulo;
                 libroNuevo.Genero = libro.Genero;
                 libroNuevo.Precio = libro.Precio;
                 libroNuevo.Stock = libro.Stock;
-                libroNuevo.AutorId = libro.AutorId;
+                // libroNuevo.Autor = autor;
+                libroNuevo.AutorId= libro.AutorId;
+                // libroNuevo.Sucursales = sucursales;
                 try
                 {
                     _libroService.Update(libroNuevo);
@@ -204,7 +212,9 @@ namespace SegundoParcialHerr.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["AutorId"] = new SelectList(_autorService.GetAll(), "Id", "Nombre", libro.AutorId);
+            ViewData["Sucursales"]= new SelectList(_sucursalService.GetAll(),"Id","NombreSucursal",libro.SucursalesId);
             return View(libro);
         }
 
